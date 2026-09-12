@@ -1,5 +1,9 @@
 package com.mall.demo;
 
+import com.mall.discount.DiscountStrategy;
+import com.mall.discount.NormalDiscount;
+import com.mall.discount.SVipDiscount;
+import com.mall.discount.VipDiscount;
 import com.mall.domain.Order;
 import com.mall.domain.Product;
 import com.mall.domain.User;
@@ -21,14 +25,15 @@ public class MallDemo {
                         10
                 );
 
-
+        DiscountStrategy SVipDiscountStrateggy = new SVipDiscount();
 
         Order order =
                 new Order(
                         3001L,
                         user,
                         product,
-                        2
+                        2,
+                        SVipDiscountStrateggy
                 );
 
         order.submit();

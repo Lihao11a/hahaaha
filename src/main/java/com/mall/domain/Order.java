@@ -1,5 +1,7 @@
 package com.mall.domain;
 
+import com.mall.discount.DiscountStrategy;
+
 public class Order {
 
     private Long id;
@@ -8,10 +10,13 @@ public class Order {
     private int quantity;
     private double totalAmount;
 
+    private DiscountStrategy discountStrategy;
+
     public Order(Long id,
                  User user,
                  Product product,
-                 int quantity) {
+                 int quantity,
+                 DiscountStrategy discountStrategy) {
 
         if (quantity <= 0) {
             throw new IllegalArgumentException(
@@ -23,9 +28,9 @@ public class Order {
         this.user = user;
         this.product = product;
         this.quantity = quantity;
-
-        this.totalAmount =
-                product.getPrice() * quantity;
+        this.discountStrategy = discountStrategy;
+        double originalprice = product.getPrice() * quantity;
+        this.totalAmount = discountStrategy.calculate(originalprice) ;
     }
 
     public void submit() {
