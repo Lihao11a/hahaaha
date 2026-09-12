@@ -1,8 +1,5 @@
 package com.mall;
 
-import com.mall.domain.Order;
-import com.mall.domain.Product;
-import com.mall.domain.User;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
