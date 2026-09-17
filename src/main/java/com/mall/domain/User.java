@@ -1,5 +1,7 @@
 package com.mall.domain;
 
+import com.mall.exception.InsufficientBalanceException;
+
 public class User {
 
     private Long id;
@@ -55,9 +57,7 @@ public class User {
         }
 
         if (balance < amount) {
-            throw new IllegalStateException(
-                    "余额不足"
-            );
+            throw new InsufficientBalanceException(id,balance,amount);
         }
 
         balance -= amount;

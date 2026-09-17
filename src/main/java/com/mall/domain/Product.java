@@ -1,5 +1,7 @@
 package com.mall.domain;
 
+import com.mall.exception.InsufficientStockException;
+
 public class Product {
 
     private Long id;
@@ -39,9 +41,7 @@ public class Product {
         }
 
         if (stock < quantity) {
-            throw new IllegalStateException(
-                    "库存不足"
-            );
+            throw new InsufficientStockException(id,stock,quantity);
         }
 
         stock -= quantity;

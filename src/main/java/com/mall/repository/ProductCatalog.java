@@ -1,6 +1,7 @@
 package com.mall.repository;
 
 import com.mall.domain.Product;
+import com.mall.exception.ProductNotFoundException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +28,10 @@ public class ProductCatalog {
     }
 
     public Product findById(Long id) {
+        Product product  = products.get(id);
+        if(product == null){
+            throw new ProductNotFoundException(id);
+        }
         return products.get(id);
     }
 
