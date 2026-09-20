@@ -1,94 +1,61 @@
 package com.mall.demo;
 
-import com.mall.discount.DiscountStrategy;
-import com.mall.discount.NormalDiscount;
-import com.mall.discount.SVipDiscount;
-import com.mall.discount.VipDiscount;
-import com.mall.domain.Order;
 import com.mall.domain.Product;
-import com.mall.domain.User;
-import com.mall.exception.InsufficientBalanceException;
-import com.mall.exception.InsufficientStockException;
 import com.mall.repository.ProductCatalog;
+import com.mall.repository.ProductFileRepository;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.List;
 
 public class MallDemo {
+
     public static void main(String[] args) {
+
+        ProductFileRepository fileRepository =
+                new ProductFileRepository(
+                        Path.of(
+                                "data",
+                                "products.csv"
+                        )
+                );
+
+
         ProductCatalog catalog =
                 new ProductCatalog();
 
-        Product keyboard =
-                new Product(
-                        1001L,
-                        "机械键盘",
-                        299,
-                        10
-                );
+        try {
 
-        Product mouse =
-                new Product(
-                        1002L,
-                        "无线鼠标",
-                        199,
-                        20
-                );
+            List<Product> products =
+                    fileRepository.loadProducts();
 
-        Product monitor =
-                new Product(
-                        1003L,
-                        "显示器",
-                        1299,
-                        5
-                );
-        User user =
-                new User(
-                        1001L,
-                        "小明",
-                        100
-                );
+            for (Product product : products) {
 
-        catalog.add(keyboard);
-        catalog.add(mouse);
-        catalog.add(monitor);
+                catalog.add(product);
 
-//        Product product = catalog.findById(9999L);
+            }
 
-//        System.out.println(product);
-//        System.out.println(product.getName());
-//        for(Product item : catalog.findAll()){
-//            System.out.println(item.getName());
-//        }
-//        System.out.println(catalog.size());
-//        catalog.remove(1003L);
-//        System.out.println(catalog.size());
+            System.out.println(
+                    "商品加载成功，共 "
+                            + catalog.size()
+                            + " 件商品"
+            );
 
-        DiscountStrategy SVipDiscountStrateggy = new SVipDiscount();
-//
-        Order order =
-                new Order(
-                        3001L,
-                        user,
-                        keyboard,
-                        2,
-                        SVipDiscountStrateggy
-                );
-    try {
-        order.submit();
-    }catch (InsufficientStockException e){
-        System.out.println("业务处理失败,"+e.getMessage());
-    }catch (InsufficientBalanceException e){
-        System.out.println("业务处理失败，"+e.getMessage());
-    }
+            Product product =
+                    catalog.findById(1002L);
 
-//
-//        System.out.println(
-//                "剩余余额：" +
-//                        user.getBalance()
-//        );
-//
-//        System.out.println(
-//                "剩余库存：" +
-//                        keyboard.getStock()
-//        );
+            System.out.println(
+                    "查询结果："
+                            + product.getName()
+            );
+
+        } catch (IOException e) {
+
+            System.err.println(
+                    "商品文件读取失败："
+                            + e.getMessage()
+            );
+
+        }
     }
 }
-
