@@ -32,19 +32,23 @@ public class Product {
         this.stock = stock;
     }
 
-    public void reduceStock(int quantity) {
-
-        if (quantity <= 0) {
-            throw new IllegalArgumentException(
-                    "购买数量必须大于0"
-            );
-        }
+    public synchronized void reduceStock(int quantity) {
 
         if (stock < quantity) {
-            throw new InsufficientStockException(id,stock,quantity);
-        }
 
-        stock -= quantity;
+            throw new InsufficientStockException(
+                    id,
+                    stock,
+                    quantity
+            );
+
+        }
+        try{
+            Thread.sleep(100);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        stock = stock - quantity;
     }
 
     public Long getId() {
