@@ -1,6 +1,8 @@
 package com.mall.repository;
 
 import com.mall.domain.Product;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -9,12 +11,13 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class ProductFileRepository {
 
     private final Path filePath;
 
-    public ProductFileRepository(Path filePath) {
-        this.filePath = filePath;
+    public ProductFileRepository(@Value("${mall.product-file-path}") String filePath) {
+        this.filePath = Path.of(filePath);
     }
 
     public List<Product> loadProducts()

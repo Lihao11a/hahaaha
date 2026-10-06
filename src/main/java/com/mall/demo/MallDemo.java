@@ -13,12 +13,7 @@ public class MallDemo {
     public static void main(String[] args) {
 
         ProductFileRepository fileRepository =
-                new ProductFileRepository(
-                        Path.of(
-                                "data",
-                                "products.csv"
-                        )
-                );
+                new ProductFileRepository("data/products.csv");
 
 
         ProductCatalog catalog =

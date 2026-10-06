@@ -1,31 +1,28 @@
 package com.mall.service;
 
+import com.mall.notification.NotificationSender;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+@Service
 public class NotificationService {
-    public void sendOrderCreatedNotification(
-            Long orderId,
-            Long userId) {
-        System.out.println(
-                Thread.currentThread().getName()
-                        + "：开始发送订单通知"
-                        + "，orderId=" + orderId
-                        + "，userId=" + userId
+
+    private final NotificationSender
+            notificationSender;
+
+    public NotificationService(NotificationSender notificationSender) {
+
+        this.notificationSender =
+                notificationSender;
+    }
+
+    public void sendOrderSuccess(
+            String userId) {
+
+        notificationSender.send(
+                userId,
+                "您的订单创建成功"
         );
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
 
-            Thread.currentThread().interrupt();
-
-            throw new RuntimeException(
-                    "发送通知被中断",
-                    e
-            );
-        }
-
-        System.out.println(
-                Thread.currentThread().getName()
-                        + "：订单通知发送完成"
-                        + "，orderId=" + orderId
-        );
     }
 }
