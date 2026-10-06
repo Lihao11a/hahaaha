@@ -2,6 +2,8 @@ package com.mall.domain;
 
 import com.mall.discount.DiscountStrategy;
 
+import java.math.BigDecimal;
+
 public class Order {
 
     private Long id;
@@ -29,7 +31,10 @@ public class Order {
         this.product = product;
         this.quantity = quantity;
         this.discountStrategy = discountStrategy;
-        double originalprice = product.getPrice() * quantity;
+        // 兼容前面课程中使用 double 的折扣策略和余额模型。
+        double originalprice = product.getPrice()
+                .multiply(BigDecimal.valueOf(quantity))
+                .doubleValue();
         this.totalAmount = discountStrategy.calculate(originalprice) ;
     }
 

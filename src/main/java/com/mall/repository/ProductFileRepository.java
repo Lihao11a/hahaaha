@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -68,8 +69,8 @@ public class ProductFileRepository {
         String name =
                 parts[1].trim();
 
-        double price =
-                Double.parseDouble(
+        BigDecimal price =
+                new BigDecimal(
                         parts[2].trim()
                 );
 

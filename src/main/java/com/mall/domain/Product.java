@@ -2,21 +2,30 @@ package com.mall.domain;
 
 import com.mall.exception.InsufficientStockException;
 
+import java.math.BigDecimal;
+
 public class Product {
 
     private Long id;
     private String name;
-    private double price;
+    private BigDecimal price;
     private int stock;
 
     public Product(Long id,
                    String name,
                    double price,
                    int stock) {
+        this(id, name, BigDecimal.valueOf(price), stock);
+    }
 
-        if (price < 0) {
+    public Product(Long id,
+                   String name,
+                   BigDecimal price,
+                   int stock) {
+
+        if (price == null || price.signum() < 0) {
             throw new IllegalArgumentException(
-                    "商品价格不能小于0"
+                    "商品价格不能为空或小于0"
             );
         }
 
@@ -33,6 +42,10 @@ public class Product {
     }
 
     public synchronized void reduceStock(int quantity) {
+
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("购买数量必须大于0");
+        }
 
         if (stock < quantity) {
 
@@ -59,7 +72,7 @@ public class Product {
         return name;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
