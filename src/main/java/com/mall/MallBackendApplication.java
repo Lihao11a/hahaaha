@@ -14,14 +14,4 @@ public class MallBackendApplication {
         SpringApplication.run(MallBackendApplication.class, args);
     }
 
-    @Bean
-    CommandLineRunner testNotification(
-            NotificationService notificationService) {
-
-        return args -> {
-            notificationService
-                    .sendOrderSuccess("U10001");
-
-        };
-    }
 }
